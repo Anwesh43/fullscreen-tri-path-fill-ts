@@ -3,7 +3,7 @@ const h : number = window.innerHeight
 const parts : number = 5 
 const scGap : number = 0.02 / parts 
 const strokeFactor : number = 90
-const sizeFactor : number = 8.9 
+const sizeFactor : number = 3.9
 const delay : number = 20 
 const colors : Array<string> = [
     "#F44336",
@@ -63,14 +63,14 @@ class DrawingUtil {
             context,
             0,
             -size,
-            (w - size / 2) * ScaleUtil.divideScale(sf, 0, parts),
+            (w / 2 - size / 2) * ScaleUtil.divideScale(sf, 0, parts),
             -size
         )
         DrawingUtil.drawLine(
             context, 
-            w - size / 2,
+            w / 2 - size / 2,
             -size, 
-            w - size / 2 + size * 0.5 * ScaleUtil.divideScale(sf, 1, parts),
+            w / 2 - size / 2 + size * 0.5 * ScaleUtil.divideScale(sf, 1, parts),
             -size - (h - size) * ScaleUtil.divideScale(sf, 1, parts) 
         )
         DrawingUtil.drawLine(
@@ -191,7 +191,7 @@ class FTPFNode {
 
     addNeighbor() {
         if (this.i < colors.length - 1) {
-            this.next = new FTPFNode(0)
+            this.next = new FTPFNode(this.i + 1)
             this.next.prev = this 
         }
     }
@@ -256,6 +256,7 @@ class Renderer {
     handleTap(cb : Function) {
         this.fstf.startUpdating(() => {
             this.animator.start(() => {
+                cb()
                 this.fstf.update(() => {
                     this.animator.stop()
                     cb()
