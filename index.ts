@@ -239,3 +239,24 @@ class FullScreenTriFill {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    fstf : FullScreenTriFill = new FullScreenTriFill()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.fstf.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.fstf.startUpdating(() => {
+            this.animator.start(() => {
+                this.fstf.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
